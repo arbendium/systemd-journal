@@ -3,18 +3,15 @@
   "version": "1.0.0",
   "description": "Utilities for reading and writing Systemd journal files",
   "type": "module",
-  "exports": "./index.js",
+  "exports": "./lib/index.js",
   "author": "Keijo Kapp <keijo.kapp@gmail.com>",
   "license": "ISC",
   "scripts": {
-    "lint": "eslint *.js"
+    "lint": "eslint lib *.js"
   },
   "devDependencies": {
-    "@arbendium/eslint-config-base": "^0.1.1",
+    "@arbendium/eslint-config-base": "^0.2.2",
     "@types/node": "^22.2.0",
     "eslint": "^8.53.0"
-  },
-  "dependencies": {
-    "eslint-plugin-import": "^2.29.0"
   }
 }
