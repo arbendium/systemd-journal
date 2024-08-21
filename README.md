@@ -15,7 +15,7 @@ Why not use Journald CLI or socket interface?:
 ## Design goals
 
 1. **Fully featured** - The library supports all the features of the official implementation, including working with older journal formats.
-1. **Unopinionated** - The library doesn't have many of the checks, restrictions and fallbacks that the official implementation has. For example, it doesn't deduplicate and reorder entry fields (reordering might be coming though since it's not something that can be handled on the userland). It doesn't check that the monotonic clock is actually monotonic. It's up the the user to not do stupid things without being prepared for the consequences.
+1. **Unopinionated** - The library doesn't have many of the checks, restrictions and fallbacks that the official implementation has. For example, it doesn't deduplicate. It doesn't check that the monotonic clock is actually monotonic. It's up the the user to not do stupid things without being prepared for the consequences.
 1. **Typesafe** - The library has quite compherensive typings.
 1. **Performant** - While not every redundant RW operation is avoidable, a reasonable effort is made to avoid unnecessary operations.
 

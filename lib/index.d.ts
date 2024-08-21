@@ -1,6 +1,6 @@
-export interface Ref<T> {
+export interface Ref<T, A extends unknown[] = []> {
 	offset: bigint,
-	read(): Promise<T>
+	read(...args: A): Promise<T>
 }
 
 export type Header = HeaderBase | Header187 | Header189 | Header246 | Header252 | Header254
@@ -17,9 +17,9 @@ export interface HeaderBase {
 	seqnum_id: Buffer
 	header_size: bigint
 	arena_size: bigint
-	data_hash_table_offset: Ref<HashTableObjectPayload<DataObjectPayload>>
+	data_hash_table_offset: Ref<HashTableItem<DataObjectPayload>, [bigint]>
 	data_hash_table_size: bigint
-	field_hash_table_offset: Ref<HashTableObjectPayload<FieldObjectPayload>>
+	field_hash_table_offset: Ref<HashTableItem<FieldObjectPayload>, [bigint]>
 	field_hash_table_size: bigint
 	tail_object_offset: Ref<JournalObject>
 	n_objects: bigint
@@ -111,10 +111,12 @@ export type FieldObjectPayload = {
 	payload: Buffer
 }
 
-export type HashTableObjectPayload<ContainedObjectPayload extends ObjectPayload> = Array<{
+export type HashTableObjectPayload<ContainedObjectPayload extends ObjectPayload> = Array<HashTableItem<ContainedObjectPayload>>
+
+export type HashTableItem<ContainedObjectPayload extends ObjectPayload> = {
 	head_hash_offset: undefined | Ref<JournalObject<ContainedObjectPayload>>,
 	tail_hash_offset: undefined | Ref<JournalObject<ContainedObjectPayload>>
-}>
+}
 
 export type Unref<T extends Record<string, any>> = {
 	[k in keyof T]: T[k] extends Ref<infer U>
@@ -124,5 +126,5 @@ export type Unref<T extends Record<string, any>> = {
 		: T[k]
 }
 
-export type Reader<T> = (offset: bigint) => Promise<T>
+export type Reader<T, A extends unknown[] = []> = (offset: bigint, ...args: A) => Promise<T>
 export type ObjectReader<T extends ObjectPayload> = Reader<JournalObject<T>>
